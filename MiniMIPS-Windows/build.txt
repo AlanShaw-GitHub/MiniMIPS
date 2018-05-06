@@ -1,0 +1,2 @@
+cd "/path/to/folder"
+pyinstaller --icon=icon.ico -w -F MiniMIPS.py
