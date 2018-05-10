@@ -45,6 +45,7 @@ class ScintillaEditor(QMainWindow):
             if(not fname):
                 return
             try:
+                fname = fname[1:]
                 with open(fname, 'r+') as f:
                     self.scintilla.setText(f.read())
                 self.current_path, self.current_filename = os.path.split(fname)
@@ -805,3 +806,5 @@ def ReadStyleSheetFile( path ):
     ssf.open(QFile.ReadOnly)
     stream = QTextStream(ssf)
     return stream.readAll()
+
+

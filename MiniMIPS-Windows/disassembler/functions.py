@@ -26,6 +26,7 @@ def disasm_beq(instruction, pos, line):
           + reverse_register.get(int(instruction[11:16],2),'error')+', ' + 'label_%d' % pos
     if re.search('error',ins):
         raise Exception('Line %d : No such register.' % line)
+    print(line + int(int_comp(instruction[16:32]),10))
     return ins, line + int(int_comp(instruction[16:32]),10)
 
 def disasm_bne(instruction, pos, line):
@@ -50,7 +51,7 @@ def disasm_addi(instruction, pos, line):
 
 def disasm_addiu(instruction, pos, line):
     ins = 'addiu ' + reverse_register.get(int(instruction[6:11], 2), 'error') + ', ' \
-          + reverse_register.get(int(instruction[11:16], 2), 'error') + ', ' + int(instruction[16:32])
+          + reverse_register.get(int(instruction[11:16], 2), 'error') + ', ' + str(int(instruction[16:32]))
     if re.search('error', ins):
         raise Exception('Line %d : No such register.' % line)
     return ins, -1
@@ -96,10 +97,10 @@ def disasm_ops18(instruction, pos, line):
     return func(instruction, pos, line)
 
 def disasm_beql(instruction, pos, line):
-    return 'beql'+disasm_addi(instruction, pos, line)[0][4:], disasm_addi(instruction, pos, line)[1]
+    return 'beql'+disasm_beq(instruction, pos, line)[0][3:], disasm_beq(instruction, pos, line)[1]
 
 def disasm_bnel(instruction, pos, line):
-    return 'bnel'+disasm_addi(instruction, pos, line)[0][4:], disasm_addi(instruction, pos, line)[1]
+    return 'bnel'+disasm_beq(instruction, pos, line)[0][3:], disasm_beq(instruction, pos, line)[1]
 
 def disasm_blezl(instruction, pos, line):
     return 'blezl'+disasm_blez(instruction, pos, line)[0][4:], disasm_blez(instruction, pos, line)[1]
@@ -190,7 +191,7 @@ def disasm_sdc2(instruction, pos, line):
 
 def disasm_sll(instruction, pos, line):
     ins = 'sll ' + reverse_register.get(int(instruction[16:21], 2), 'error') + ', ' \
-          + reverse_register.get(int(instruction[11:16], 2), 'error') + ', ' + int(instruction[21:26],2)
+          + reverse_register.get(int(instruction[11:16], 2), 'error') + ', ' + str(int(instruction[21:26],2))
     if re.search('error', ins):
         raise Exception('Line %d : No such register.' % line)
     return ins, -1
