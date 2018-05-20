@@ -453,7 +453,7 @@ ops28 = {
 
 def int_comp(str_):
     if(str_[0] == '1'):
-        tmp = int(str_[1:],2)
-        return str(-tmp + 1)
+        tmp = 2**16-int(str_,2)
+        return str(-tmp)
     else:
         return str(int(str_,2))

@@ -305,7 +305,7 @@ class ScintillaEditor(QMainWindow):
             if line == -1:
                 i = 0
                 while i < len(result):
-                    self.debug.append(hex(int((i + 32) / 32)) + ' : ' +
+                    self.debug.append(hex(int((i + 32) / 8 - 4)) + ' : ' +
                     hex(int(result[i:i + 32],2)).replace('0x','').upper().zfill(8) + '\n')
                     i = i + 32
                 self.debug_label.setText('Debug Console (hex)')
