@@ -23,7 +23,8 @@ def disasm(lists):
                 text.append('    .word 0x' + hex(int(instruction, 2))[2:].zfill(8).upper())
                 continue
             if pos != -1:
-                positions[pos] = len(positions)
+                if positions.get(pos, '') == '':
+                    positions[pos] = len(positions)
             text.append('    '+ins)
     except Exception as e_:
         return raw, e_

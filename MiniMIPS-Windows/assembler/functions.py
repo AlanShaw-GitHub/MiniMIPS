@@ -961,18 +961,9 @@ def num2bin(num,length):
             temp = '0' + temp
         return temp
     else:
-        num = -num+1
-        temp = bin(num).replace('0b','')
-        result = ''
-        for i in range(len(temp)):
-            if temp[i] == '0':
-                result = result + '1'
-            else:
-                result = result + '0'
-        while len(result) < length - 1:
-            result = '0' + result
-        result = '1' + result
-        return result
+        num = 2**length+num
+        res = bin(num).replace('0b','')
+        return res
 
 
 functions = {'abs': asm_abs,

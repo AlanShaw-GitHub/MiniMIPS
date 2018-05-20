@@ -14,27 +14,41 @@ def disasm_ops01(instruction, pos, line):
     return func(instruction, pos, line)
 
 def disasm_j(instruction, pos, line):
-    ins = 'j ' + 'label_%d' % pos
+    if pos.get(int(instruction[6:32],2),'') == '':
+        ins = 'j ' + 'label_%d' % len(pos)
+    else:
+        ins = 'j ' + 'label_%d' % pos[int(instruction[6:32],2)]
     return ins, int(instruction[6:32],2)
 
 def disasm_jal(instruction, pos, line):
-    ins = 'jal ' + 'label_%d' % pos
+    if pos.get(int(instruction[6:32],2),'') == '':
+        ins = 'j ' + 'label_%d' % len(pos)
+    else:
+        ins = 'j ' + 'label_%d' % pos[int(instruction[6:32],2)]
     return ins, int(instruction[6:32], 2)
 
 def disasm_beq(instruction, pos, line):
-    ins = 'beq ' + reverse_register.get(int(instruction[6:11],2),'error')+', '\
-          + reverse_register.get(int(instruction[11:16],2),'error')+', ' + 'label_%d' % pos
+    if pos.get(line + int(int_comp(instruction[16:32]),10), '') == '':
+        ins = 'beq ' + reverse_register.get(int(instruction[6:11],2),'error')+', '\
+          + reverse_register.get(int(instruction[11:16],2),'error')+', ' + 'label_%d' % len(pos)
+    else:
+        ins = 'beq ' + reverse_register.get(int(instruction[6:11], 2), 'error') + ', ' \
+              + reverse_register.get(int(instruction[11:16], 2), 'error') + ', ' + 'label_%d' % pos[line + int(int_comp(instruction[16:32]),10)]
     if re.search('error',ins):
         raise Exception('Line %d : No such register.' % line)
-    print(line + int(int_comp(instruction[16:32]),10))
+    #print(line + int(int_comp(instruction[16:32]),10))
     return ins, line + int(int_comp(instruction[16:32]),10)
 
 def disasm_bne(instruction, pos, line):
     return 'bne'+disasm_beq(instruction, pos, line)[0][3:], disasm_beq(instruction, pos, line)[1]
 
 def disasm_blez(instruction, pos, line):
-    ins = 'blez ' + reverse_register.get(int(instruction[6:11], 2), 'error') \
-          + ', ' + 'label_%d' % pos
+    if pos.get(line + int(int_comp(instruction[16:32]), 10), '') == '':
+        ins = 'blez ' + reverse_register.get(int(instruction[6:11], 2), 'error') \
+          + ', ' + 'label_%d' % len(pos)
+    else:
+        ins = 'blez ' + reverse_register.get(int(instruction[6:11], 2), 'error') \
+              + ', ' + 'label_%d' % pos[line + int(int_comp(instruction[16:32]), 10)]
     if re.search('error', ins):
         raise Exception('Line %d : No such register.' % line)
     return ins, line + int(int_comp(instruction[16:32]),10)
