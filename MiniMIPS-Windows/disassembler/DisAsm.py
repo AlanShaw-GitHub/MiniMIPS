@@ -17,7 +17,7 @@ def disasm(lists):
                 #is data
                 text.append('    .word 0x' + hex(int(instruction,2))[2:].zfill(8).upper())
                 continue
-            ins, pos = func(instruction, len(positions), line)
+            ins, pos = func(instruction, positions, line)
             if pos == -2:
                 # is data
                 text.append('    .word 0x' + hex(int(instruction, 2))[2:].zfill(8).upper())
@@ -40,7 +40,7 @@ def disasm(lists):
     return raw, e
 
 if __name__ == '__main__':
-    fname = '/Users/alan/Desktop/D_mem.coe'
+    fname = r'C:\Users\alan\Desktop\1.coe'
     try:
         with open(fname, 'r+') as f:
             f.read(62)

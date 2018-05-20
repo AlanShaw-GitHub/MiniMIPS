@@ -17,7 +17,7 @@ def disasm(lists):
                 #is data
                 text.append('    .word 0x' + hex(int(instruction,2))[2:].zfill(8).upper())
                 continue
-            ins, pos = func(instruction, len(positions), line)
+            ins, pos = func(instruction, positions, line)
             if pos == -2:
                 # is data
                 text.append('    .word 0x' + hex(int(instruction, 2))[2:].zfill(8).upper())
